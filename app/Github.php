@@ -8,11 +8,14 @@ class Github implements CodeInterface
 {
 
     public $end_point = "https://api.github.com/";
-    public $username = "sirinibin";
-    public $password = "infoboyz123";
+    public $username;
+    public $password;
 
     public function search($request)
     {
+
+        $this->username = $request->getUser();
+        $this->password = $request->getPassword();
 
         $q = $request->input('q');
         $page = $request->input('page');
@@ -42,8 +45,16 @@ class Github implements CodeInterface
 
     private function prepareResponse($result, $page, $per_page)
     {
-
+        $message = $result;
         $result = json_decode($result);
+
+        if (json_last_error() != JSON_ERROR_NONE) {
+            $response = [
+                'status' => 0,
+                'error' => $message
+            ];
+            return $response;
+        }
         $response = [];
         $response['status'] = 1;
         $response['total_count'] = $result->total_count;
