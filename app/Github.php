@@ -16,16 +16,16 @@ class Github implements CodeInterface
 
         $this->username = $request->getUser();
         $this->password = $request->getPassword();
-
+        
         $q = $request->input('q');
         $page = $request->input('page');
         $per_page = (int)$request->input('per_page');
         $order = $request->input('order');
         $sort = $request->input('sort');
 
-        if (!isset($page))
+        if (empty($page))
             $page = 1;
-        if (!isset($per_page))
+        if (empty($per_page))
             $per_page = 25;
 
         $params = [
