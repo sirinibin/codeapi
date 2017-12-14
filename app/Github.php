@@ -55,6 +55,10 @@ class Github implements CodeInterface
             ];
             return $response;
         }
+        if(!empty($result->errors)){
+            return $result;
+        }
+
         $response = [];
         $response['status'] = 1;
         $response['total_count'] = $result->total_count;
